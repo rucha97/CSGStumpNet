@@ -10,6 +10,7 @@ from loss import Loss
 from config import Config
 from model import CSGStumpNet
 from utils import generate_mesh
+from utils import generate_openscad
 import argparse
 
 def eval(config):
@@ -53,6 +54,8 @@ def eval(config):
             avg_test_recall += recall.item()
 
             generate_mesh(model, surface_pointcloud.transpose(2,1), config, test_iter)
+            #changes_r
+            generate_openscad(model, surface_pointcloud.transpose(2,1), config, test_iter)
             test_iter += 1 
 
         avg_test_loss_recon = avg_test_loss_recon/ test_iter
