@@ -15,7 +15,8 @@ import argparse
 
 def eval(config):
     test_dataset = ShapeNet(partition='test', category=config.category, shapenet_root=config.dataset_root, balance=config.balance,num_surface_points=config.num_surface_points, num_sample_points=config.num_sample_points)
-    test_loader  = DataLoader(test_dataset, pin_memory=True, num_workers=20, batch_size=config.test_batch_size_per_gpu*config.num_gpu, shuffle=False, drop_last=True)
+    #change the num_numworkers from 20 to 0
+    test_loader  = DataLoader(test_dataset, pin_memory=True, num_workers=0, batch_size=config.test_batch_size_per_gpu*config.num_gpu, shuffle=False, drop_last=True)
 
     
     device = torch.device("cuda")
@@ -55,7 +56,7 @@ def eval(config):
 
             generate_mesh(model, surface_pointcloud.transpose(2,1), config, test_iter)
             #changes_r
-            generate_openscad(model, surface_pointcloud.transpose(2,1), config, test_iter)
+            #generate_openscad(model, surface_pointcloud.transpose(2,1), config, test_iter)
             test_iter += 1 
 
         avg_test_loss_recon = avg_test_loss_recon/ test_iter

@@ -35,15 +35,6 @@ def generate_mesh(model, surface_point_cloud, config, test_iter, iso_value=0.5):
     mc = MarchingCubes(config.real_size, config.test_size, use_pytorch=True)
     file_prefix = os.path.join(*[config.sample_dir, config.experiment_name])
     mc.batch_export_mesh(file_prefix, test_iter*surface_point_cloud.shape[0], surface_point_cloud.shape[0], padded_occ_func, iso_value)
-
-#changes_r
-def generate_openscad(model, surface_point_cloud, config, test_iter):
-    feature = model.encoder(surface_point_cloud)
-    code = model.decoder(feature)
-    intersection_layer_connections, union_layer_connections = model.connection_head(code, is_training=False)
-    primitive_parameters = model.primitive_head(code)
-    
-    openscad = OpenScad(use_pytorch=True)
-    file_prefix = os.path.join(*[config.sample_dir, config.experiment_name])
-    openscad.export_array(file_prefix, test_iter*surface_point_cloud.shape[0], surface_point_cloud.shape[0], 
+    #changes_r
+    mc.generate_openscad(file_prefix, test_iter*surface_point_cloud.shape[0], surface_point_cloud.shape[0], 
     intersection_layer_connections,union_layer_connections, primitive_parameters)

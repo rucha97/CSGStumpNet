@@ -61,3 +61,10 @@ class MarchingCubes:
             mesh.vertices = o3d.utility.Vector3dVector(batch_verts[i])
             mesh.triangles = o3d.utility.Vector3iVector(batch_faces[i])
             o3d.io.write_triangle_mesh("%s/%d.ply" % (file_name_prefix, (start_index+i)), mesh)
+
+    #changes_r
+    def generate_openscad(self, file_name_prefix, start_index, batch_size, intersection_layer_connections,union_layer_connections, primitive_parameters):
+        Path(file_name_prefix).mkdir(parents=True, exist_ok=True)
+        d1 = {'primitive': primitive_parameters, 'cvx': intersection_layer_connections,
+                'ccv': union_layer_connections}
+        sample_npy = np.save('sample.npy', d1)
